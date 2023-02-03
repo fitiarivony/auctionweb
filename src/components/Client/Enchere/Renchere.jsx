@@ -63,7 +63,9 @@ class Renchere extends Component {
      initialize=async() =>{
         let idenchere=new URLSearchParams(window.location.search).get('idenchere');
         let data=await FetchHelper.getData(URLHelper.urlgen("renchere_utilisateur/gagnant/"+idenchere));
-        if(data.data.length>0)this.setState({detail_renchere:data.data});
+        if(data.data!==undefined){
+            this.setState({detail_renchere:data.data});
+        }
     }
      
     format(date){
@@ -76,9 +78,10 @@ class Renchere extends Component {
         return date;
     }
     formatResult(){
+        console.log(this.state.detail_renchere.prix);
         if(this.state.detail_renchere.prix===0)return (<>Pas encore de renchere</>);
         else return this.state.detail_renchere.prix;
-     }
+    }
  
     
 
@@ -103,7 +106,7 @@ class Renchere extends Component {
                <p id="descri"></p>
               <ul className="list-group">
               <form id="myForm" onSubmit={this.handleSumbit}>
-               <li className="list-group-item " aria-current="true">Prix de mise enchere maximum:{this.formatResult} </li>
+               <li className="list-group-item " aria-current="true">Prix de mise enchere maximum:{this.formatResult()} </li>
                <li className="list-group-item " aria-current="true"> 
                
                <label for="prix" className="form-label">Prix:</label> <input type="number" name="prix" onChange={this.change} className='form-control' />
